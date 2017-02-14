@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
+import VueResource from 'vue-resource'
+
+Vue.use(VueResource)
+Vue.use(VueMaterial)
 
 /* eslint-disable no-new */
 new Vue({
@@ -11,4 +17,3 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
-
