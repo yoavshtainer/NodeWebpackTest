@@ -68,7 +68,7 @@ devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
 
-var db = require("./Sensor.dal").sensor;
+var db = require("../src/Sensor.dal").sensor;
 
 app.post("/", function(request, response){
   	console.log("POST id: " + request.body.message.id + " name: " + request.body.message.name + " area: " + request.body.message.area);

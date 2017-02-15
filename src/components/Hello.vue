@@ -85,7 +85,7 @@ export default {
           }
         }
       }, function (response) {
-        this.message = 'there is no data'
+        // this.message = 'there is no data'
         console.log('Error!:', response.data)
         // this.loading = false;
       })

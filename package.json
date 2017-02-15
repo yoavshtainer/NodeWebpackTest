@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "mongodb": "^2.2.23",
+    "mongodb": "^2.2.24",
     "vue": "^2.1.10",
     "vue-material": "^0.7.1",
     "vue-resource": "^1.2.0",
