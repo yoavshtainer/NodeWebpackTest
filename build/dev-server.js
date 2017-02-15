@@ -11,6 +11,8 @@ var express = require('express')
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+var log = require('minilog')('server')
+var bodyParser = require("body-parser");
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -21,6 +23,7 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+app.use(bodyParser.urlencoded())
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -72,7 +75,15 @@ var db = require("../src/Sensor.dal").sensor;
 
 app.post("/", function(request, response){
   	console.log("POST id: " + request.body.message.id + " name: " + request.body.message.name + " area: " + request.body.message.area);
-
+// var data;
+// console.log(data = Object.keys(request));
+// var count = 0;
+//               data.forEach(function(element) {
+//                   // console.log("element number: " + count);
+//                   console.log("name: "+ element);
+//                   console.log("object: "+  Object.keys(element));
+//                   count++;
+//               }); 
 db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 			console.log("sensor is: ", sensor);
 			if(sensor === null) {
@@ -90,6 +101,7 @@ db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 			console.log("error is: ", error);
 			response.send(error);
 		});
+
 });
 
 

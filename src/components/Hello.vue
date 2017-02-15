@@ -97,7 +97,7 @@ export default {
         area: this.getarea
       }
       console.log('data: ' + myMessage)
-
+      console.log('POST id: ' + myMessage.id + ' name: ' + myMessage.name + ' area: ' + myMessage.area)
             // GET request
       this.$http.post('/', {message: myMessage}).then(function (response) {
         // debugger;
