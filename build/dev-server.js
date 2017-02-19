@@ -8,16 +8,12 @@ if (!process.env.NODE_ENV) {
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
-var exphbs = require('express-handlebars')
-var expressValidator = require('express-validator')
-var session = require('express-session')
-var passport= require('passport-local')
-var LocalStrategy = require('passport-local').Strategy;
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var log = require('minilog')('server')
 var bodyParser = require("body-parser");
+
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -28,6 +24,25 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
+
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+ 
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 app.use(bodyParser.urlencoded())
 var compiler = webpack(webpackConfig)
 
@@ -80,15 +95,7 @@ var db = require("../src/Sensor.dal").sensor;
 
 app.post("/", function(request, response){
   	console.log("POST id: " + request.body.message.id + " name: " + request.body.message.name + " area: " + request.body.message.area);
-// var data;
-// console.log(data = Object.keys(request));
-// var count = 0;
-//               data.forEach(function(element) {
-//                   // console.log("element number: " + count);
-//                   console.log("name: "+ element);
-//                   console.log("object: "+  Object.keys(element));
-//                   count++;
-//               }); 
+
 db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 			console.log("sensor is: ", sensor);
 			if(sensor === null) {

@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "connect-flash": "*",
     "body-parser": "^1.16.1",
     "express-handlebars": "*",
     "express-messages": "*",

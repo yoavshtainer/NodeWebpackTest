@@ -6,9 +6,16 @@ import router from './router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import VueResource from 'vue-resource'
+import auth from './auth'
 
 Vue.use(VueResource)
 Vue.use(VueMaterial)
+
+// Check the users auth status when the app starts
+auth.checkAuth()
+
+// Optional
+Vue.http.headers.common['Authorization'] = auth.getAuthHeader()
 
 /* eslint-disable no-new */
 new Vue({
