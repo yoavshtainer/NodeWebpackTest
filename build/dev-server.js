@@ -8,6 +8,11 @@ if (!process.env.NODE_ENV) {
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
+var exphbs = require('express-handlebars')
+var expressValidator = require('express-validator')
+var session = require('express-session')
+var passport= require('passport-local')
+var LocalStrategy = require('passport-local').Strategy;
 var webpack = require('webpack')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
