@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <md-toolbar>
+    <h1 class="md-title">{{ msg }}</h1>
+  </md-toolbar>
       <p><h2 v-if="seen">sensor name: {{ sensor }} <br/><br/>
                         area: {{ area }}</h2>
       <h3 v-if="seen">status: {{ status }}</h3>
@@ -129,5 +131,11 @@ li {
 
 a {
   color: #42b983;
+}
+.md-title {
+  position: relative;
+  font-weight: normal;
+  color: wheat;
+  padding: 16px;
 }
 </style>

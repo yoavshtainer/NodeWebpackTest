@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <!--<md-toolbar>
+    <h1 class="md-title">Welcome to my website!</h1>
+  </md-toolbar>-->
     <img src="./assets/smartHome.jpg">
     <router-view></router-view>
      </div>
@@ -30,4 +33,10 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
+/*.md-title {
+  position: relative;
+  font-weight: normal;
+  color: wheat;
+  padding: 16px;
+}*/
 </style>
