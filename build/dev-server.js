@@ -13,7 +13,13 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
 var log = require('minilog')('server')
 var bodyParser = require("body-parser");
-
+var cookieParser = require('cookie-parser');
+var flash = require('connect-flash');
+// // Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+var db = require("../src/Sensor.dal").sensor;
+var userDb = require("../src/user.dal").user;
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -24,27 +30,19 @@ var autoOpenBrowser = !!config.dev.autoOpenBrowser
 var proxyTable = config.dev.proxyTable
 
 var app = express()
-
-// Configuring Passport
-var passport = require('passport');
-var expressSession = require('express-session');
-app.use(expressSession({secret: 'mySecretKey'}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
- 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
 app.use(bodyParser.urlencoded())
+app.use(cookieParser())
 var compiler = webpack(webpackConfig)
+
+app.use(expressSession({secret: 'mySecretKey',
+                        saveUninitialized: true,
+                        resave: true}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
@@ -91,7 +89,7 @@ devMiddleware.waitUntilValid(function () {
   console.log('> Listening at ' + uri + '\n')
 })
 
-var db = require("../src/Sensor.dal").sensor;
+require('../src/authentiation/passport')(passport);
 
 app.post("/", function(request, response){
   	console.log("POST id: " + request.body.message.id + " name: " + request.body.message.name + " area: " + request.body.message.area);
@@ -116,7 +114,23 @@ db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 
 });
 
+app.post("/signup", function(request, response){
+  console.log("/signup");
+  passport.authenticate('signup', function (err, user, info) {
+    if (err) {
+        return response.send({err: err, info: info})
+    }
 
+    request.login (user, function (err){
+      if (err) {
+          return response.send(err)
+      }
+
+      return response.send('you are logged in!')
+    })
+  })
+
+});
 app.get("/api/actionName/:id", function(request, response){
 
   	console.log("/api/actionName " + request.params.id);

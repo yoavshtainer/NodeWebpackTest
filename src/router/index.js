@@ -5,6 +5,7 @@ import Home from 'components/Home.vue'
 import SecretQuote from 'components/SecretQuote.vue'
 import Signup from 'components/Signup.vue'
 import Login from 'components/Login.vue'
+import Root from 'components/root.vue'
 
 Vue.use(Router)
 
@@ -12,6 +13,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'root',
+      component: Root
+    },
+    {
+      path: '/Hello',
       name: 'Hello',
       component: Hello
     },
@@ -31,29 +37,9 @@ export default new Router({
       component: Signup
     },
     {
-      path: 'secretquote',
+      path: '/secretquote',
       name: 'SecretQuote',
       component: SecretQuote
     }
   ]
 })
-
-// router.map({
-//   '/home': {
-//     component: Home
-//   },
-//   'secretquote': {
-//     component: SecretQuote
-//   },
-//   '/login': {
-//     component: Login
-//   },
-//   '/signup': {
-//     component: Signup
-//   }
-// })
-
-// // Redirect to the home route if any routes are unmatched
-// router.redirect({
-//   '*': '/home'
-// })

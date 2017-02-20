@@ -3,6 +3,8 @@
     <!--<md-toolbar>
     <h1 class="md-title">Welcome to my website!</h1>
   </md-toolbar>-->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <img src="./assets/smartHome.jpg">
     <router-view></router-view>
      </div>

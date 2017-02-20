@@ -1,4 +1,4 @@
-<!-- src/components/Signup.vue -->
+ <!--src/components/Signup.vue -->
 
   <template>
     <div class="col-sm-4 col-sm-offset-4">
@@ -23,12 +23,12 @@
           v-model="credentials.password"
         >
       </div>
-      <button class="btn btn-primary" @click="submit()">Access</button>
+      <button class="btn btn-primary" @click="submit">Access</button>
     </div>
   </template>
 
   <script>
-  import auth from '../auth'
+
   export default {
     data () {
       return {
@@ -43,13 +43,14 @@
     },
     methods: {
       submit () {
-        var credentials = {
-          username: this.credentials.username,
-          password: this.credentials.password
-        }
+        // var credentials = {
+        //   username: this.credentials.username,
+        //   password: this.credentials.password
+        // }
         // We need to pass the component's this context
         // to properly make use of http in the auth service
-        auth.signup(this, credentials, 'secretquote')
+
+        // auth.signup(this, credentials, 'secretquote')
       }
     }
 

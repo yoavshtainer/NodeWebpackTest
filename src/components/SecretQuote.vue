@@ -1,4 +1,4 @@
- <!-- src/components/SecretQuote.vue -->
+  <!--src/components/SecretQuote.vue 
 
   <template>
     <div class="col-sm-6 col-sm-offset-3">
@@ -11,7 +11,7 @@
   </template>
 
   <script>
-  import auth from '../auth'
+  // import auth from '../auth'
   export default {
     data () {
       return {
@@ -38,4 +38,4 @@
       }
     }
   }
-  </script>
+  </script>-->

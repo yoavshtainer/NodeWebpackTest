@@ -1,4 +1,4 @@
-<!-- src/components/Login.vue -->
+ <!--src/components/Login.vue -->
 
   <template>
     <div class="col-sm-4 col-sm-offset-4">
@@ -28,7 +28,7 @@
   </template>
 
   <script>
-  import auth from '../auth'
+
   export default {
     data () {
       return {
@@ -43,13 +43,13 @@
     },
     methods: {
       submit () {
-        var credentials = {
-          username: this.credentials.username,
-          password: this.credentials.password
-        }
+        // var credentials = {
+        //   username: this.credentials.username,
+        //   password: this.credentials.password
+        // }
         // We need to pass the component's this context
         // to properly make use of http in the auth service
-        auth.login(this, credentials, 'secretquote')
+        // auth.login(this, credentials, 'secretquote')
       }
     }
 
