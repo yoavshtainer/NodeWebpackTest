@@ -43,10 +43,19 @@
     },
     methods: {
       submit () {
-        // var credentials = {
-        //   username: this.credentials.username,
-        //   password: this.credentials.password
-        // }
+        var credentials = {
+          username: this.credentials.username,
+          password: this.credentials.password
+        }
+
+        console.log('POST password: ' + credentials.password + ' username: ' + credentials.username)
+            // GET request
+        this.$http.post('/signup', {message: credentials}).then(function (response) {
+        // debugger;
+          console.log('Success!: ', response.body)
+        }, function (response) {
+          console.log('Error!: ', response.data)
+        })
         // We need to pass the component's this context
         // to properly make use of http in the auth service
 

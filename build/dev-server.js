@@ -114,23 +114,30 @@ db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 
 });
 
-app.post("/signup", function(request, response){
-  console.log("/signup");
-  passport.authenticate('signup', function (err, user, info) {
-    if (err) {
-        return response.send({err: err, info: info})
-    }
+app.post('/signup', passport.authenticate('local-signup', {
+		successRedirect: '/hello',
+		failureRedirect: '/signup',
+		failureFlash: true
+	}));
 
-    request.login (user, function (err){
-      if (err) {
-          return response.send(err)
-      }
+// app.post("/signup", function(request, response){
+//   console.log("/signup");
+//   passport.authenticate('signup', function (err, user, info) {
+//     if (err) {
+//         return response.send({err: err, info: info})
+//     }
 
-      return response.send('you are logged in!')
-    })
-  })
+//     request.login (user, function (err){
+//       if (err) {
+//           return response.send(err)
+//       }
 
-});
+//       return response.send('you are logged in!')
+//     })
+//   })
+
+// });
+
 app.get("/api/actionName/:id", function(request, response){
 
   	console.log("/api/actionName " + request.params.id);
