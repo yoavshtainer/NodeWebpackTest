@@ -10,6 +10,8 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 Vue.use(VueMaterial)
 
+// Vue.http.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

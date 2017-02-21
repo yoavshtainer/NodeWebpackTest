@@ -1,5 +1,6 @@
 var connectors = require('./connectIndex');
 var Mongo = connectors.Mongo;
+var o_id = require('mongodb').ObjectID;
 var log = require('minilog')('user.dal');
 // Mongo.connect();
 // log.info('is connected', Mongo.isConnected);
@@ -9,17 +10,10 @@ class user {
     return 'users';
   }
 
-  // static connect(users, collectionName = 'users'){
-  //   Mongo.connect().then(function() {
-  //   var col = Mongo.collection(collectionName);
-  //   return user.getLength(user, collectionName = 'users');
-  //   });
-    
-  // }
   static add(users, collectionName = 'users') {
     var col = Mongo.collection(collectionName);
     col.insert(users, function(){
-			console.log("Successfully inserted " + users.name);
+			console.log("Successfully inserted " + users.email);
 		});
   }
 
@@ -30,8 +24,13 @@ class user {
 
   static getuserByid(userid, collectionName = 'users') {
     var col = Mongo.collection(collectionName);
-    
-  return  col.findOne({userName : userid.toString()});
+  return  col.findOne({'local.username' : userid.toString()});
+  }
+
+  static getuserBy_id(userid, collectionName = 'users') {
+    var col = Mongo.collection(collectionName);
+    // console.log("_id: " + userid);
+  return  col.findOne({'_id' :new o_id(userid)});
   }
 
  static getLength(user, collectionName = 'users') {

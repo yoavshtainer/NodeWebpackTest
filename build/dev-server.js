@@ -19,7 +19,7 @@ var flash = require('connect-flash');
 var passport = require('passport');
 var expressSession = require('express-session');
 var db = require("../src/Sensor.dal").sensor;
-var userDb = require("../src/user.dal").user;
+// var userDb = require("../src/user.dal").user;
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -113,30 +113,42 @@ db.getsensorByid(request.body.message.id,"sensors").then(function(sensor){
 		});
 
 });
+app.post('/signup', function(req, res, next) {
+  passport.authenticate('local-signup', function(err, user, info) {
+    if (err) { 
+      console.log("error is: ", err); 
+      res.send(err);
+  }
+    if (!user) { 
+      console.log("signup new user.");
+      res.send(req.body);
+   } else {
+     let Res = 'you are alreay in the system!'
+     res.send(Res);
+   }           
+  })(req, res, next);
+});
+// app.post('/signup', passport.authenticate('local-signup', {
+// 		successRedirect: '/hello',
+// 		failureRedirect: '/signup',
+// 		failureFlash: true
+// 	}));
+app.post('/login', function(req, res, next) {
+  passport.authenticate('local-login', function(err, user, info) {
+    if (err) { console.log("error is: ", err); }
+    if (!user) { console.log("there is no user...."); }
+    req.logIn(user, function(err) {
+      if (err) { console.log("error is: ", err); }
+       res.send(req.body);
+    });
+  })(req, res, next);
+});
+// app.post('/login', passport.authenticate('local-login', {
+// 		successRedirect: '/hello',
+// 		failureRedirect: '/login',
+// 		failureFlash: true
+// 	}));
 
-app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect: '/hello',
-		failureRedirect: '/signup',
-		failureFlash: true
-	}));
-
-// app.post("/signup", function(request, response){
-//   console.log("/signup");
-//   passport.authenticate('signup', function (err, user, info) {
-//     if (err) {
-//         return response.send({err: err, info: info})
-//     }
-
-//     request.login (user, function (err){
-//       if (err) {
-//           return response.send(err)
-//       }
-
-//       return response.send('you are logged in!')
-//     })
-//   })
-
-// });
 
 app.get("/api/actionName/:id", function(request, response){
 
