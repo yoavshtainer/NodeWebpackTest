@@ -2,12 +2,13 @@
   <div class="hello">
     <md-toolbar>
     <h1 class="md-title">{{ msg }}</h1>
+    <!--<h2>hello {{ this.$router.params.error }}</h2>-->
   </md-toolbar>
-      <p><h2 v-if="seen">sensor name: {{ sensor }} <br/><br/>
+      <div v-if="seen"><p><h2>sensor name: {{ sensor }} <br/><br/>
                         area: {{ area }}</h2>
-      <h3 v-if="seen">status: {{ status }}</h3>
-      <h2 v-if="seenN">there is no data </h2>
-      <strong>id:</strong></p><input v-model="id"><br/><br/>
+      <h3>status: {{ status }}</h3></div>
+      <div v-else><h2>there is no data </h2></p>
+      <p><strong>id:</strong></p></div><input v-model="id"><br/><br/>
        <button v-on:click="sub">get data</button><br/><br/>
 
        <p><h2>{{ message }}</h2></p>
@@ -17,18 +18,20 @@
         <li><strong>area:</strong></p><input v-model="getarea"></li>
       </ul>
         <button v-on:click="submit">submit</button>
+        <app-Login></app-Login>
   </div>
 </template>
 
 <script>
+import Login from './Login'
 
 export default {
+  props: ['error'],
   name: 'hello',
   data () {
     return {
       msg: 'Welcome to my website!',
       seen: false,
-      seenN: true,
       sensor: '',
       area: '',
       status: '',
@@ -38,6 +41,9 @@ export default {
       getname: '',
       getarea: ''
     }
+  },
+  component: {
+    'app-Login': Login
   },
   http: {
     root: '/root',
@@ -49,19 +55,18 @@ export default {
   },
   methods: {
     sub () {
+      // let user = Login.data()
       var myId = this.id
       var myMessage = `/api/actionName/${myId}`
       var that = this
-
+      console.log('Login.email:' + Object.keys(Login.data()))
       this.$http.get(myMessage).then(function (response) {
         console.log(response.body)
         //  debugger;
         if (response.body === 'there is no data') {
           that.seen = false
-          that.seenN = true
         } else {
           that.seen = true
-          that.seenN = false
           that.sensor = response.body.name
           that.area = response.body.area
           if (response.body.status === true) {

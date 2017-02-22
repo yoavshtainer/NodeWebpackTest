@@ -5,7 +5,7 @@ module.exports = function(passport) {
 
 
 	passport.serializeUser(function(user, done){
-		console.log("user " + user.local.password + " password " + user._id);
+		// console.log("user " + user.local.password + " password " + user._id);
 		done(null, user._id);
 	});
 
@@ -80,7 +80,7 @@ module.exports = function(passport) {
 				if(!user)
 						return done(null, false, req.flash('loginMessage', 'No User found'));
 					if(user.local.password != password){
-						return done(null, false, req.flash('loginMessage', 'inavalid password'));
+						return done(null, user, req.flash('loginMessage', 'inavalid password'));
 					}
 					return done(null, user);
 

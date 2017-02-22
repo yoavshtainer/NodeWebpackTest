@@ -28,9 +28,11 @@ export default new Router({
       component: Home
     },
     {
+      // path: '/login/:email',
       path: '/login',
       name: 'Login',
       component: Login
+      // props: true
     },
     {
       path: '/signup',
@@ -43,4 +45,5 @@ export default new Router({
       component: SecretQuote
     }
   ]
+  // mode: 'history' // for disapire the # in the browser
 })

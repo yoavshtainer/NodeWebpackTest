@@ -4,7 +4,7 @@
     <div class="col-sm-4 col-sm-offset-4">
       <h2>Log In</h2>
       <p>Log in to your account to get some great quotes.</p>
-      <div class="alert alert-danger" v-if="error">
+      <div class="alert alert-danger" v-if="seen">
         <p>{{ error }}</p>
       </div>
       <div class="form-group">
@@ -32,13 +32,10 @@
   export default {
     data () {
       return {
-        // We need to initialize the component with any
-        // properties that will be used in it
-        // credentials: {
         email: '',
         password: '',
-        // },
-        error: ''
+        error: '',
+        seen: false
       }
     },
     http: {
@@ -51,20 +48,32 @@
     },
     methods: {
       submit () {
-        var myMessage = {
-          email: this.email,
-          password: this.password
-        }
+        var myMessage = this
+
         console.log('POST password: ' + myMessage.password + ' username: ' + myMessage.email)
             // GET request
         this.$http.post('/login', {password: myMessage.password, email: myMessage.email}).then(function (response) {
         // debugger;
           console.log('Success!: ', response.body)
-          if (response.body.password === myMessage.password && response.body.email === myMessage.email) {
-            this.$router.push('/hello')
+          // console.log('my data: ' + myMessage.password + ' ' + myMessage.email + ' server data: ' + response.body.local.password + ' ' + response.body.local.username)
+          if (response.body !== 'there is no user with this name') {
+            if (response.body.local.password === myMessage.password && response.body.local.email === myMessage.username) {
+              // bus.$emit('username', myMessage)
+              // this.$router.params.sharedData
+              // this.$dispatch(myMessage)
+              this.$router.push('/hello')
+            } else {
+              myMessage.error = 'uncorrect password'
+              myMessage.seen = true
+            }
+          } else {
+            myMessage.error = 'there is no user with this name'
+            myMessage.seen = true
           }
         }, function (response) {
           console.log('Error!: ', response.data)
+          myMessage.error = response.data
+          myMessage.seen = true
         })
         // var credentials = {
         //   username: this.credentials.username,
